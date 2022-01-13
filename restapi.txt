@@ -1,0 +1,72 @@
+npm init
+npm install --save express
+
+//to stop ctrl+c and recompile after each modification:
+npm install --save-dev nodemon
+package.json => adding script "start": "nodemon server.js"
+npm start (to start the server)
+
+//logging package to log incoming requests:
+npm install --save morgan
+const morgan = require('morgan'); //to use it in app.js
+app.use(morgan('dev')); //to tell morgan to log the requests
+
+
+//to parse the body of incoming requests.
+//doesnt support files
+npm install --save body-parser
+const bodyParser = require('body-parser'); //to import it in app.js
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+
+
+//cors errors
+cors = cross origin resource sharing
+
+
+//for the database mongoDB
+npm install --save mongoose
+const mongoose = require('mongoose');
+
+
+
+//packages that helps store files(images)
+npm install --save multer
+const multer = require('multer'); //in product.js because we want to store files from the products.js
+const upload = multer({dest: '/uploads'}); //in product.js
+
+http://localhost:3000/uploads/0.5908941429667738download.jpg //doesnt work because uploads folder is not public
+app.use(express.static('uploads'));//to make uploads folder public available
+//because it's public we can acces it without /uploads:
+http://localhost:3000/0.5908941429667738download.jpg // to acces image in browser 
+
+but if I rewrite like this: app.use('uploads', express.static('uploads'));
+then I can acces it like this: http://localhost:3000/uploads/0.5908941429667738download.jpg
+
+
+
+
+
+
+//for login we need to send a token in order for the user to have acces to the data
+token = JSON data(typically not encrypted) + signature(can be verified)
+
+//package to hash the password
+npm install --save bcrypt
+const bcrypt = require('bcrypt'); //to import in users.js
+repo: https://github.com/kelektiv/node.bcrypt.js
+
+//package for the login token:
+github: https://github.com/auth0/node-jsonwebtoken
+npm install --save jsonwebtoken
+const jwt = require('jsonwebtoken');
+
+
+
+
+
+//how to protect routes with the token I sent
+//we need a middleware path to check if the token is there and if is there to continue the route
+we need to send the token in the headers
+with Authorization: { Bearer: token_here }
